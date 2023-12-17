@@ -26,13 +26,13 @@ public class SecurityConfig {
 				.invalidateHttpSession(true);
 
 		http.authorizeHttpRequests()
-//			.requestMatchers("/comment/**",
-//					"/course/**",
-//					"/lecture/**",
-//					"/lecturecomment/**",
-//					"/major/**",
-//					"/role/**",
-//					"/student/**").hasRole("USER")
+			.requestMatchers("/lecture/**",
+					"/course/**",
+					"/lecture/**",
+					"/lecturecomment/**",
+					"/major/**",
+					"/role/**",
+					"/student/**").hasRole("USER")
 //			.requestMatchers("/board/**").hasAnyRole("USER","ADMIN")
 //			.requestMatchers("/**","/css/**","/js/**","/images/**").permitAll()
 			.requestMatchers("/**").permitAll();
