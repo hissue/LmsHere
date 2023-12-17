@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,9 +32,8 @@ public class StudentController {
 	}
 	
 	@GetMapping("/mypage")
-	public Student getMyPage(Principal principal, @PathVariable String studentId) {
-		System.out.println(">>"+principal.getName()+"<<");
-		return studentService.getStudent(studentId);
+	public Student getMyPage(Principal principal) {
+		return studentService.getStudent(principal.getName());
 		
 	}
 	
@@ -52,8 +50,14 @@ public class StudentController {
 	}
 	
 	@PatchMapping("/mypage/update")
-	public String updateStudent(@RequestBody Student student){
-		logger.info("updateStudent " + student.toString());
+	public String updateStudent(Principal principal, @RequestBody Student student){
+		logger.info("updateStudent " + principal.getName());
+		student.setStudentId(principal.getName());
+
+		PasswordEncoder pwEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		String encodedPw = pwEncoder.encode(student.getPassword());
+		student.setPassword(encodedPw);
+		
 		studentService.updateStudent(student);
 		return "ok";
 	}
