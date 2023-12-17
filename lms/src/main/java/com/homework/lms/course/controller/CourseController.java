@@ -1,5 +1,6 @@
 package com.homework.lms.course.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -29,9 +30,9 @@ public class CourseController {
 		System.out.println("courseService");
 	} 
 	
-	@GetMapping("/{studentId}")
-	public List<Course> getCourse(@PathVariable String studentId){
-		return courseService.getCourse(studentId);
+	@GetMapping("/")
+	public List<Course> getCourse(Principal principal){
+		return courseService.getCourse(principal.getName());
 	} 
 	
 	@PostMapping("/insert")
@@ -41,10 +42,13 @@ public class CourseController {
 		return "ok";
 	}
 
-	@DeleteMapping("/delete/{courseId}/{studentId}")
-	public String deleteCourse(@PathVariable String studentId, @PathVariable int courseId) {
+//	@DeleteMapping("/delete/{courseId}/{studentId}")
+	@DeleteMapping("/delete/{courseId}")
+//	public String deleteCourse(@PathVariable String studentId, @PathVariable int courseId) {
+	public String deleteCourse(@PathVariable int courseId, Principal principal) {
+
 		logger.info("deleteCourse " + courseId);
-		courseService.deleteCourse(studentId, courseId);
+		courseService.deleteCourse(principal.getName(), courseId);
 		return "ok";
 	}
 }

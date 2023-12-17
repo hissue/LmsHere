@@ -1,5 +1,6 @@
 package com.homework.lms.comment.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -54,10 +55,12 @@ public class CommentController {
 		return "ok";
 	}
 	
-	@DeleteMapping("/delete/{commentId}/{studentId}")
-	public String deleteComment(@PathVariable int commentId, @PathVariable String studentId) {
+//	@DeleteMapping("/delete/{commentId}/{studentId}")
+	@DeleteMapping("/delete/{commentId}")
+//	public String deleteComment(@PathVariable int commentId, @PathVariable String studentId) {
+	public String deleteComment(@PathVariable int commentId, Principal principal) {
 		logger.info("deleteComment "+commentId);
-		commentService.deleteComment(commentId, studentId);
+		commentService.deleteComment(commentId, principal.getName());
 		return "ok";
 	}
 }
