@@ -2,6 +2,8 @@ package com.homework.lms.lecturecomment.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import com.homework.lms.lecturecomment.service.ILectureCommentService;
 @RestController
 @RequestMapping("/lecturecomment")
 public class LectureCommentController {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	ILectureCommentService lectureCommentService;
@@ -45,18 +48,21 @@ public class LectureCommentController {
 
 	@PostMapping("/insert")
 	public String insertLectureComment(@RequestBody LectureComment lectureComment) {
+		logger.info("insertLectureComment " + lectureComment.toString());
 		lectureCommentService.insertLectureComment(lectureComment);
 		return "ok";
 	}
 	
 	@PatchMapping("/update")
 	public String updateLectureComment(@RequestBody LectureComment lectureComment) {
+		logger.info("updateLectureComment " + lectureComment.toString());
 		lectureCommentService.updateLectureComment(lectureComment);
 		return "ok";
 	}
 	
 	@DeleteMapping("/delete/{lectureCommentId}/{studentId}")
 	public String deleteLectureComment(@PathVariable int lectureCommentId, @PathVariable String studentId) {
+		logger.info("deleteLectureComment " + lectureCommentId);
 		lectureCommentService.deleteLectureComment(lectureCommentId, studentId);
 		return "ok";
 	}

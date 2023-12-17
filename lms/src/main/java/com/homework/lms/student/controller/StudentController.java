@@ -1,5 +1,7 @@
 package com.homework.lms.student.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,8 @@ import com.homework.lms.student.service.IStudentService;
 
 @RestController
 public class StudentController {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	@Autowired
 	IStudentService studentService;
 	
@@ -22,26 +26,29 @@ public class StudentController {
 		return "login";
 	}
 	
-	@PostMapping("/signin")
-	public String singIn(@RequestBody Student student) {
-		studentService.insertStudent(student);
-		return "ok";
-	}
-	
 	@GetMapping("/mypage/{studentId}")
 	public Student getMyPage(@PathVariable String studentId) {
 		return studentService.getStudent(studentId);
 		
 	}
 	
+	@PostMapping("/signin")
+	public String singIn(@RequestBody Student student) {
+		logger.info("singIn " + student.toString());
+		studentService.insertStudent(student);
+		return "ok";
+	}
+	
 	@PatchMapping("/mypage/update")
 	public String updateStudent(@RequestBody Student student){
+		logger.info("updateStudent " + student.toString());
 		studentService.updateStudent(student);
 		return "ok";
 	}
 	
 	@DeleteMapping("/mypage/delete/{studentId}/{password}")
 	public String deleteStudent(@PathVariable String studentId, @PathVariable String password){
+		logger.info("deleteStudent " + studentId);
 		studentService.deleteStudent(studentId, password);
 		return "ok";
 	}
