@@ -1,5 +1,8 @@
 package com.homework.lms.student.controller;
 
+import java.security.Principal;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +26,15 @@ public class StudentController {
 	@Autowired
 	IStudentService studentService;
 	
+	// 로그인 실패 시 모두 이곳으로 return		
 	@GetMapping("/login")
 	public  String login() {
 		return "login";
 	}
 	
-	@GetMapping("/mypage/{studentId}")
-	public Student getMyPage(@PathVariable String studentId) {
+	@GetMapping("/mypage")
+	public Student getMyPage(Principal principal, @PathVariable String studentId) {
+		System.out.println(">>"+principal.getName()+"<<");
 		return studentService.getStudent(studentId);
 		
 	}
@@ -53,10 +58,20 @@ public class StudentController {
 		return "ok";
 	}
 	
-	@DeleteMapping("/mypage/delete/{studentId}/{password}")
-	public String deleteStudent(@PathVariable String studentId, @PathVariable String password){
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
+	@DeleteMapping("/mypage/delete")
+	public String deleteStudent(Principal principal, @RequestBody Map<String, String> request){
+		String studentId = principal.getName();
+		String password = request.get("password");
+		String dbpw = studentService.getStudent(studentId).getPassword();
+		
 		logger.info("deleteStudent " + studentId);
-		studentService.deleteStudent(studentId, password);
+		if(password != null && passwordEncoder.matches(password, dbpw)) {//matches(password, dbpw) >> password:평문, dbpw : db로부터 갖고 온 비번
+			studentService.deleteStudent(studentId, dbpw);
+		}
+		
 		return "ok";
 	}
 }
