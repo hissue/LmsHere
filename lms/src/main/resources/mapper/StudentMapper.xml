@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.homework.lms.student.repository.IStudentRepository">
+	<select id="getStudent" parameterType="String" resultType="com.homework.lms.student.model.Student">
+		SELECT student_id AS studentId,
+			student_name AS studentName,
+			student_email AS studentEmail,
+			student_address AS studentAddress,
+			student_phone_number AS studentPhoneNumber,
+			student_grade AS studentGrade,
+			student_admission_year AS studentAdmissionYear,
+			major_id AS majorId,
+			password AS password,
+			role_id AS roleId
+		FROM student
+		WHERE student_id = #{studentId}
+	</select>
+	<insert id="insertStudent" parameterType="com.homework.lms.student.model.Student">
+	    INSERT INTO student 
+	        (student_id, 
+	        student_name, 
+	        student_email, 
+	        student_address, 
+	        student_phone_number, 
+	        student_grade, 
+	        student_admission_year,
+	        major_id,
+	        password,
+	        role_id)
+	    VALUES 
+	        (#{studentId}, 
+	        #{studentName}, 
+	        #{studentEmail}, 
+	        #{studentAddress}, 
+	        #{studentPhoneNumber}, 
+	        #{studentGrade}, 
+	        #{studentAdmissionYear}, 
+	        #{majorId}, 
+	        #{password}, 
+	        #{roleId})
+	</insert>
+	<update id="updateStudent" parameterType="com.homework.lms.student.model.Student">
+		UPDATE student 
+		<set>
+			<if	test="studentName != null">student_name = #{studentName},</if>
+			<if	test="studentEmail != null">student_email = #{studentEmail},</if>
+			<if	test="studentAddress != null">student_address = #{studentAddress},</if>
+			<if	test="studentPhoneNumber != null">student_phone_number = #{studentPhoneNumber},</if>
+			<if	test="studentGrade != null">student_grade = #{studentGrade},</if>
+			<if	test="majorId != null">major_id = #{majorId},</if>
+			<if	test="password != null">password = #{password},</if>
+			<if	test="roleId != null">role_id = #{roleId},</if>
+		</set>
+		WHERE student_id=#{studentId}
+	</update>
+	<delete id="deleteStudent" parameterType="String">
+		DELETE FROM student 
+		WHERE student_id = #{studentId} and password = #{password}
+	</delete>
+</mapper>

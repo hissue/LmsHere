@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.homework.lms.lecture.repository.ILectureRepository">
+	<select id="getLecture" resultType="com.homework.lms.lecture.model.Lecture">
+		SELECT 
+			lecture_id AS lectureId,
+			lecture_name AS lectureName,
+			lecture_location AS lectureLocation,
+			lecture_time AS lectureTime,
+			lecture_credit AS lectureCredit,
+			student_grade AS studentGrade,
+			major_id AS majorId
+		FROM lecture
+		<if test="majorId !=null">WHERE major_id = #{majorId}</if>
+	</select>
+</mapper>

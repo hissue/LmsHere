@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.homework.lms.course.repository.ICourseRepository">
+	<select id="getCourse" parameterType="int"
+		resultType="com.homework.lms.course.model.Course">
+		SELECT
+			course_id as courseId,
+			student_id as studentId,
+			lecture_id as lectureId
+		from course
+		<if test="studentId!=null"> where student_id = #{studentId}</if>
+	</select>
+
+	<insert id="insertCourse"
+		parameterType="com.homework.lms.course.model.Course">
+		<selectKey resultType="int" keyProperty="courseId" order="BEFORE">
+	        SELECT NVL(MAX(course_id),0)+1 AS courseId FROM course
+	    </selectKey>
+		INSERT INTO course(course_id, student_id, lecture_id)
+		VALUES (#{courseId},#{studentId},#{lectureId})
+	</insert>
+
+	<delete id="deleteCourse">
+	    DELETE FROM course
+	    WHERE student_id = #{studentId} and course_id = #{courseId}
+	</delete>
+
+</mapper>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.homework.lms.major.repository.IMajorRepository">
+	<select id="getMajor" resultType="com.homework.lms.major.model.Major">
+		SELECT 
+			major_id AS majorId,
+			major_name AS majorName
+		FROM major
+		<if test="majorId !=null">WHERE major_id = #{majorId}</if>
+	</select>
+</mapper>

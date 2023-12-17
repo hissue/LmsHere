@@ -1,2 +1,0 @@
-# LmsHere
-LMS - Spring Boot
