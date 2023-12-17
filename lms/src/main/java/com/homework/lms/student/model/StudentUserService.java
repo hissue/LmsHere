@@ -42,7 +42,7 @@ public class StudentUserService implements UserDetailsService{
 		String[] roles = {roleName};
 		List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(roles);
 		
-		return new User(memberInfo.getStudentId(),"{noop}"+memberInfo.getPassword(),authorities);
+		return new User(memberInfo.getStudentId(),memberInfo.getPassword(),authorities);
 		
 		//이메일도 반환하고 싶다면
 		//스프링 시큐리티 세션에 아이디, 비번, 권한 외 정보 저장하는 방법

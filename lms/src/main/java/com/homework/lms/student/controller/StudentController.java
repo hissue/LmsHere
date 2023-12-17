@@ -3,6 +3,8 @@ package com.homework.lms.student.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -34,6 +36,11 @@ public class StudentController {
 	
 	@PostMapping("/signin")
 	public String singIn(@RequestBody Student student) {
+		
+		PasswordEncoder pwEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		String encodedPw = pwEncoder.encode(student.getPassword());
+		student.setPassword(encodedPw);
+		
 		logger.info("singIn " + student.toString());
 		studentService.insertStudent(student);
 		return "ok";

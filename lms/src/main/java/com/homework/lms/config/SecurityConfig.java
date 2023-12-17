@@ -32,6 +32,7 @@ public class SecurityConfig {
 					"/lecturecomment/**",
 					"/major/**",
 					"/role/**",
+					"/mypage/**",
 					"/student/**").hasRole("USER")
 //			.requestMatchers("/board/**").hasAnyRole("USER","ADMIN")
 //			.requestMatchers("/**","/css/**","/js/**","/images/**").permitAll()
